@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+var debug = require('debug')('steam-lobby-api');
+var app = require('../app');
+var fs = require('fs');
+var https = require('https');
+var configuration = require('../configuration');
+
+app.set('port', process.env.PORT || 3000);
+
+var hskey = fs.readFileSync('key.pem');
+var hscert = fs.readFileSync('cert.pem');
+var options = {
+    key: hskey,
+    cert: hscert,
+    passphrase: configuration.ssl.passphrase
+};
+
+app.listen = function(){
+    var server = https.createServer(options, this);
+    return server.listen.apply(server, arguments);
+};
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+process.on('uncaughtException', function ( err ) {
+    console.error('uncaughtException');
+    console.error(err.stack);
+});

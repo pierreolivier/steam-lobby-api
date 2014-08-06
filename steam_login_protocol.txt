@@ -1,0 +1,16 @@
+https://steamcommunity.com/login/getrsakey/
+	username: username
+	donotcache: 1
+	
+https://steamcommunity.com/login/dologin/
+	password: encryptedPassword,
+	username: username,
+	twofactorcode: getAuthCode( results ),
+	emailauth: form.elements['emailauth'].value,
+	loginfriendlyname: form.elements['loginfriendlyname'].value,
+	captchagid: form.elements['captchagid'].value,
+	captcha_text: form.elements['captcha_text'].value,
+	emailsteamid: form.elements['emailsteamid'].value,
+	rsatimestamp: results.timestamp,
+	remember_login: true,
+	donotcache: 1

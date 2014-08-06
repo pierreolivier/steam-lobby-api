@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+        <script>
+            var captchaGid = '-1';
+
+            $( document ).ready(function() {
+                $('#loginForm').hide();
+                $('#captcha').hide();
+                $('#steam_guard').hide();
+
+                $.ajax({
+                    type: 'post',
+                    url: '/is_logged',
+                    data: 'steamid=' + $.cookie('steamid') + '&cookies=' + $.cookie('steam'),
+                    dataType: 'json',
+                    cache: false,
+                    success: function(json, statut){
+                        if (!json.success) {
+                            $('#loginForm').show();
+                        } else {
+                            logged();
+                        }
+                    }
+                });
+            });
+
+            function login() {
+                var form = document.forms['logon'];
+
+                var username = form.elements['username'].value;
+                var password = form.elements['password'].value;
+                var emailauth = form.elements['emailauth'].value;
+                var captcha = form.elements['captcha'].value;
+
+                $('#steamGuard').val('');
+                $('#steamCaptcha').val('');
+
+                username = username.replace( /[^\x00-\x7F]/g, '' );
+                password = password.replace( /[^\x00-\x7F]/g, '' );
+
+                $.ajax({
+                    type: 'post',
+                    url: '/login',
+                    data: 'username=' + username + '&password=' + password + '&emailauth=' + emailauth + '&captcha_gid=' + captchaGid + '&captcha=' + captcha,
+                    dataType: 'json',
+                    cache: false,
+                    success: function(json, statut){
+                        console.log(json);
+
+                        if (!json.success) {
+                            if (json.captcha_needed == true) {
+                                captchaGid = json.captcha_gid;
+
+                                $('#captcha_img').attr('src', 'https://steamcommunity.com/public/captcha.php?gid=' + json.captcha_gid).load(function () {
+                                    $('#captcha').show();
+                                });
+                            } else {
+                                $('#captcha').hide();
+                            }
+
+                            if (json.emailauth_needed == true) {
+                                $('#steam_guard').show();
+                            } else {
+                                $('#steam_guard').hide();
+                            }
+
+                            captchaGid = '-1';
+                        } else {
+                            $.cookie("steamid", json.steamid, { expires: 30 });
+                            $.cookie("steam", json.cookies, { expires: 30 });
+
+                            $('#steam_guard').hide();
+                            $('#captcha').hide();
+
+                            $('#loginForm').hide();
+
+                            logged();
+                        }
+                    }
+                });
+            }
+
+            function logged() {
+                $.ajax({
+                    type: 'post',
+                    url: '/players',
+                    data: 'steamid=' + $.cookie('steamid') + '&cookies=' + $.cookie('steam'),
+                    dataType: 'html',
+                    cache: false,
+                    success: function(html, statut){
+                        document.write(html);
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <h1>{{ title }}</h1>
+        <form action="#" method="post" name="logon" id="loginForm">
+        	username : <input type="text" name="username" id="steamAccountName" maxlength="64"><br />
+        	password : <input type="password" name="password" id="steamAccountPassword" maxlength="64"><br />
+
+            <div id="steam_guard">
+        	    <br />steam guard : <input type="text" name="emailauth" id="steamGuard" maxlength="64"><br />
+        	</div>
+
+        	<div id="captcha">
+                <br /><img id="captcha_img" src="" /><br />
+                captcha : <input type="text" name="captcha" id="steamCaptcha" maxlength="64"><br />
+        	</div>
+
+            <br />
+        	<input type="submit" id="submitLogin" onclick="javascript:login(); return false;">
+        </form>
+    </body>
+</html>
