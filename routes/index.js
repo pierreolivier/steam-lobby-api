@@ -48,38 +48,12 @@ router.post('/is_logged', function(req, res) {
     });
 });
 
-router.post('/players', function(req, res) {
-    var steamid = req.body.steamid;
+router.post('/proxy', function(req, res) {
+    var url = req.body.url;
     var cookies = req.body.cookies;
 
-    api.lobby(steamid, cookies, function(html) {
-        var memberDivStart = html.split('<div id="memberList">');
-        if (memberDivStart.length > 1) {
-            var childrenDivMemberList = memberDivStart[1].split('div class="listOptions">');
-            if (childrenDivMemberList.length > 0) {
-                var result = childrenDivMemberList[0].trim();
-                result = result.substring(0, result.length - 6);
-
-                var tokens = result.split("linkFriend_");
-
-                var currentPlayers = [];
-                for (var i = 1; i < tokens.length; i++) {
-                    if (i > 5) {
-                        break;
-                    }
-
-                    var connectionTokens = tokens[i].split("href=\"");
-                    var linkTokens = connectionTokens[1].split("\">");
-                    var nameTokens = linkTokens[1].split("</a><br />");
-                    var profileUrl = linkTokens[0];
-                    var name = nameTokens[0];
-
-                    currentPlayers.push(name);
-                }
-
-                res.send(currentPlayers);
-            }
-        }
+    api.proxy(url, cookies, function(html) {
+        res.send(html);
     });
 });
 

@@ -5,6 +5,9 @@
         <link rel='stylesheet' href='/stylesheets/style.css' />
         <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/javascripts/manager.js"></script>
+        <script type="text/javascript" src="/javascripts/player.js"></script>
+        <script type="text/javascript" src="/javascripts/lobby.js"></script>
         <script>
             var captchaGid = '-1';
 
@@ -86,16 +89,7 @@
             }
 
             function logged() {
-                $.ajax({
-                    type: 'post',
-                    url: '/players',
-                    data: 'steamid=' + $.cookie('steamid') + '&cookies=' + $.cookie('steam'),
-                    dataType: 'html',
-                    cache: false,
-                    success: function(html, statut){
-                        document.write(html);
-                    }
-                });
+                updatePlayers();
             }
         </script>
     </head>
