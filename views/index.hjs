@@ -6,8 +6,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
         <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/javascripts/modernizr.custom.js"></script>
+        <script type="text/javascript" src="/javascripts/jquery.dlmenu.js"></script>
         <script type="text/javascript" src="/javascripts/async.js"></script>
         <script type="text/javascript" src="/javascripts/manager.js"></script>
         <script type="text/javascript" src="/javascripts/player.js"></script>
@@ -19,6 +22,8 @@
                 $('#loginPanel').hide();
                 $('#captcha').hide();
                 $('#steam_guard').hide();
+
+                $('#dl-menu').dlmenu();
 
                 $.ajax({
                     type: 'post',
@@ -40,7 +45,22 @@
     <body>
         <div id="content" align="center">
             <div id="page" align="left">
-                {{ title }}
+                <div id="pageTitle">Steam teammates finder</div>
+
+                <div id="menu">
+                    <div id="dl-menu" class="dl-menuwrapper">
+                        <button class="dl-trigger"></button>
+                        <ul class="dl-menu">
+                            <li>
+                                <a href="#">Lobby</a>
+                            </li>
+                            <li>
+                                <a href="#">Recently played with</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div id="loginPanel">
                     <div class="title">Connection</div>
                     <form action="#" method="post" name="logon" id="loginForm">
@@ -62,6 +82,41 @@
                         <br />
                         <input type="submit" id="submitLogin" class="btnGreen" onclick="javascript:login(); return false;" value="Sign In">
                     </form>
+                </div>
+                <div id="lobbyPanel" align="center">
+                    <div id="playersPanel" class="lobbyElement" align="left">
+                        <div class="playerElement">
+                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
+                            <div class="hours">1000 hours played</div>
+                            <div class="rank">10000th</div>
+                        </div>
+                        <div class="playerElement">
+                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
+                            <div class="hours">1000 hours played</div>
+                            <div class="rank">10000th</div>
+                        </div>
+                        <div class="playerElement">
+                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
+                            <div class="hours">1000 hours played</div>
+                            <div class="rank">10000th</div>
+                        </div>
+                        <div class="playerElement">
+                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
+                            <div class="hours">1000 hours played</div>
+                            <div class="rank">10000th</div>
+                        </div>
+                        <div class="playerElement">
+                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
+                            <div class="hours">1000 hours played</div>
+                            <div class="rank">10000th</div>
+                        </div>
+                    </div>
+                    <div id="premadesPanel" class="lobbyElement" align="left">
+                        premades
+                    </div>
+                </div>
+                <div id="recentlyPlayedWith">
+
                 </div>
             </div>
         </div>
