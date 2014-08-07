@@ -101,7 +101,8 @@ function updatePlayers(callback) {
                     });
 
                 }, function (err) {
-                    callback();
+                    setTimeout(callback, 5000);
+
                     handlePlayers(players);
 
                     console.log('update lobby');
