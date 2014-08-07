@@ -15,6 +15,7 @@ function Player(profileUrl, name) {
     this.lastUpdateFriends = 0;
     this.lastUpdateRank = 0;
     this.order = 0;
+    this.client = false;
 }
 
 Player.prototype.fromCache = function (hours, order, rank) {
@@ -39,14 +40,16 @@ Player.prototype.updateHours = function (cb) {
                     var h5HoursPlayed = h5DivGame[0].split("hours_forever\":\"");
                     if (h5HoursPlayed.length > 1) {
                         instance.hours = h5HoursPlayed[1];
-
-                        instance.lastUpdateHours = time();
-
-                        cb();
                     }
                 }
             }
+
+            instance.lastUpdateHours = time();
+
+            cb(true);
         });
+    } else {
+        cb(false);
     }
 };
 
@@ -91,20 +94,39 @@ Player.prototype.updateRank = function (cb) {
                     instance.lastUpdateRank = time();
                 }
 
-                cb();
+                cb(true);
             });
         });
+    } else {
+        cb(false);
     }
 };
 
-Player.prototype.updateFriends = function () {
+Player.prototype.updateFriends = function (cb) {
     var instance = this;
 
     if (time() - this.lastUpdateFriends > CACHE_TIMEOUT) {
         steamRequest(instance.profileUrl + "/friends", function (html) {
+            var divId = 'memberList';
+            if (instance.client) {
+                divId = 'friendListForm';
+
+                var htmlDoc = $(html);
+
+                var nameSelect = htmlDoc.find('a.whiteLink');
+                if (nameSelect.length > 0) {
+                    instance.name = nameSelect[0].innerHTML;
+                }
+
+                var profileUrlSelect = htmlDoc.find('div.profile_small_header_texture a');
+                if (profileUrlSelect.length > 0) {
+                    instance.profileUrl = profileUrlSelect[0].href.substr(26);
+                }
+            }
+
             var friends = [];
 
-            var divMemberList = html.split("id=\"memberList\">");
+            var divMemberList = html.split("id=\"" + divId + "\">");
             if (divMemberList.length > 1) {
                 var friendBlocks = divMemberList[1].split("friendBlockLinkOverlay\" href=\"");
 
@@ -119,15 +141,17 @@ Player.prototype.updateFriends = function () {
 
             instance.lastUpdateFriends = time();
 
-            console.log(friends);
+            cb(true);
         });
+    } else {
+        cb(false);
     }
 };
 
 Player.prototype.getHours = function (cb) {
     var instance = this;
 
-    this.updateHours(function () {
+    this.updateHours(function (updated) {
         cb(instance.hours);
     });
 };
@@ -143,7 +167,7 @@ Player.prototype.getSteamid = function (cb) {
 Player.prototype.getRank = function (cb) {
     var instance = this;
 
-    this.updateRank(function () {
+    this.updateRank(function (updated) {
         cb(instance.rank);
     });
 };
@@ -151,7 +175,7 @@ Player.prototype.getRank = function (cb) {
 Player.prototype.getFriends = function (cb) {
     var instance = this;
 
-    this.updateFriends(function () {
+    this.updateFriends(function (updated) {
         cb(instance.friends);
     });
 };
