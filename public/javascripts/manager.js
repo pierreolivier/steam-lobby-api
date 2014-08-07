@@ -108,3 +108,13 @@ function logged() {
 
     startUpdatePlayers();
 }
+
+function handlePlayers(players) {
+    $('#playersPanel').empty();
+
+    for (var i = 0 ; i < players.length ; i++) {
+        var player = players[i];
+
+        $('#playersPanel').append('<div class="playerElement"><div class="name"><a href="http://steamcommunity.com/' + player.profileUrl + '" target="_blank">' + player.name + '</a></div><div class="hours">' + player.hours + ' hours played</div><div class="rank">' + player.rank + 'th</div></div>');
+    }
+}

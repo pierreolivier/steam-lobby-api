@@ -46,6 +46,7 @@ a {
 }
 
 #loginPanel {
+    z-index: 2000;
     width: 270px;
     margin-left: -157px;
     position: fixed;
@@ -72,6 +73,7 @@ a {
 
 .lobbyElement {
     width: 285px;
+    min-height: 185px;
     display: inline-block;
     vertical-align: top;
 

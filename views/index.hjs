@@ -85,31 +85,7 @@
                 </div>
                 <div id="lobbyPanel" align="center">
                     <div id="playersPanel" class="lobbyElement" align="left">
-                        <div class="playerElement">
-                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
-                            <div class="hours">1000 hours played</div>
-                            <div class="rank">10000th</div>
-                        </div>
-                        <div class="playerElement">
-                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
-                            <div class="hours">1000 hours played</div>
-                            <div class="rank">10000th</div>
-                        </div>
-                        <div class="playerElement">
-                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
-                            <div class="hours">1000 hours played</div>
-                            <div class="rank">10000th</div>
-                        </div>
-                        <div class="playerElement">
-                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
-                            <div class="hours">1000 hours played</div>
-                            <div class="rank">10000th</div>
-                        </div>
-                        <div class="playerElement">
-                            <div class="name"><a href="#">bla bla bla bla bla bla</a></div>
-                            <div class="hours">1000 hours played</div>
-                            <div class="rank">10000th</div>
-                        </div>
+
                     </div>
                     <div id="premadesPanel" class="lobbyElement" align="left">
                         premades

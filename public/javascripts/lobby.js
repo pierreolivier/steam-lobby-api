@@ -20,9 +20,9 @@ function startUpdatePlayers() {
     async.whilst(
         function () { return updateEnable; },
         function (callback) {
-            updatePlayers();
+            updatePlayers(callback);
 
-            setTimeout(callback, 5000);
+            // setTimeout(callback, 5000);
         }, function (err) {
             // 5 seconds have passed
         }
@@ -43,7 +43,7 @@ function addCachePlayer(player) {
     }
 }
 
-function updatePlayers() {
+function updatePlayers(callback) {
     steamRequest('/profiles/' + $.cookie('steamid') + '/friends/players/', function (html) {
         var memberDivStart = html.split('<div id="memberList">');
         if (memberDivStart.length > 1) {
@@ -101,6 +101,9 @@ function updatePlayers() {
                     });
 
                 }, function (err) {
+                    callback();
+                    handlePlayers(players);
+
                     console.log('update lobby');
                 });
             }
