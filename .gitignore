@@ -32,7 +32,6 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-*.css
 configuration.js
 *.pem
 *.csr

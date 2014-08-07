@@ -86,7 +86,7 @@ function login() {
                 $('#steam_guard').hide();
                 $('#captcha').hide();
 
-                $('#loginForm').hide();
+                $('#loginPanel').hide();
 
                 logged();
             }

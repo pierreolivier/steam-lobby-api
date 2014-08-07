@@ -2,6 +2,9 @@
 <html>
     <head>
         <title>{{ title }}</title>
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel='stylesheet' href='/stylesheets/style.css' />
         <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
@@ -13,7 +16,7 @@
             var captchaGid = '-1';
 
             $( document ).ready(function() {
-                $('#loginForm').hide();
+                $('#loginPanel').hide();
                 $('#captcha').hide();
                 $('#steam_guard').hide();
 
@@ -25,7 +28,7 @@
                     cache: false,
                     success: function(json, statut){
                         if (!json.success) {
-                            $('#loginForm').show();
+                            $('#loginPanel').show();
                         } else {
                             logged();
                         }
@@ -35,22 +38,32 @@
         </script>
     </head>
     <body>
-        <h1>{{ title }}</h1>
-        <form action="#" method="post" name="logon" id="loginForm">
-        	username : <input type="text" name="username" id="steamAccountName" maxlength="64"><br />
-        	password : <input type="password" name="password" id="steamAccountPassword" maxlength="64"><br />
+        <div id="content" align="center">
+            <div id="page" align="left">
+                {{ title }}
+                <div id="loginPanel">
+                    <div class="title">Connection</div>
+                    <form action="#" method="post" name="logon" id="loginForm">
+                        Steam username : <br />
+                        <input type="text" name="username" id="steamAccountName" class="textField" maxlength="64"><br /><br />
+                        Password : <br />
+                        <input type="password" name="password" id="steamAccountPassword" class="textField" maxlength="64"><br />
 
-            <div id="steam_guard">
-        	    <br />steam guard : <input type="text" name="emailauth" id="steamGuard" maxlength="64"><br />
-        	</div>
+                        <div id="steam_guard">
+                            <br />Steam Guard : <br /><input type="text" name="emailauth" id="steamGuard" class="textField" maxlength="64"><br />
+                        </div>
 
-        	<div id="captcha">
-                <br /><img id="captcha_img" src="" /><br />
-                captcha : <input type="text" name="captcha" id="steamCaptcha" maxlength="64"><br />
-        	</div>
+                        <div id="captcha">
+                            <br /><img id="captcha_img" src="" /><br />
+                            Captcha :
+                            <br /><input type="text" name="captcha" id="steamCaptcha" class="textField" maxlength="64"><br />
+                        </div>
 
-            <br />
-        	<input type="submit" id="submitLogin" onclick="javascript:login(); return false;">
-        </form>
+                        <br />
+                        <input type="submit" id="submitLogin" class="btnGreen" onclick="javascript:login(); return false;" value="Sign In">
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
