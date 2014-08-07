@@ -121,7 +121,7 @@ function updatePremades() {
 
         friends[0][0] = 0;
         for(i = 0 ; i < players.length ; i++) {
-            var profileUrl = players[i];
+            var profileUrl = players[i].profileUrl;
             if(clientFriends.contains(profileUrl)) {
                 friends[0][i + 1] = 1;
                 friends[i + 1][0] = 1;
