@@ -1,4 +1,5 @@
 var captchaGid = '-1';
+var emailSteamid = '';
 
 function steamRequest(url, cb) {
     console.log(url);
@@ -57,15 +58,13 @@ function login() {
     $.ajax({
         type: 'post',
         url: '/login',
-        data: 'username=' + username + '&password=' + password + '&emailauth=' + emailauth + '&captcha_gid=' + getCaptchaGid() + '&captcha=' + captcha,
+        data: 'username=' + username + '&password=' + password + '&emailauth=' + emailauth + '&captcha_gid=' + getCaptchaGid() + '&captcha=' + encodeURIComponent(captcha) + '&emailsteamid=' + emailSteamid,
         dataType: 'json',
         cache: false,
         success: function(json, statut){
             console.log(json);
 
             if (!json.success) {
-                // setCaptchaGid('-1');
-
                 if (json.captcha_needed == true) {
                     setCaptchaGid(json.captcha_gid);
 
@@ -77,6 +76,7 @@ function login() {
                 }
 
                 if (json.emailauth_needed == true) {
+                    emailSteamid = json.emailsteamid;
                     $('#steam_guard').show();
                 } else {
                     $('#steam_guard').hide();

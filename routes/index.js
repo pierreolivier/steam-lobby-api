@@ -14,6 +14,7 @@ router.post('/login', function(req, res) {
     var emailauth = req.body.emailauth;
     var captchaGid = req.body.captcha_gid;
     var captcha = req.body.captcha;
+    var emailSteamid = req.body.emailsteamid;
 
     api.getRsaKey(username, function(json) {
         if (json.success == true) {
@@ -22,14 +23,14 @@ router.post('/login', function(req, res) {
             password = password.replace( /[^\x00-\x7F]/g, '' );
             var encryptedPassword = crypto.RSA.encrypt( password, pubKey );
 
-            api.login(username, encryptedPassword, emailauth, captchaGid, captcha, json.timestamp, function(json, cookies) {
+            api.login(username, encryptedPassword, emailauth, captchaGid, captcha, json.timestamp, emailSteamid, function(json, cookies) {
                 if (json.success) {
                     var steamid = json.transfer_parameters.steamid;
 
                     res.send(api.loginSuccess(steamid, cookies));
                 } else {
                     if (json.captcha_needed == true || json.emailauth_needed == true) {
-                        res.send(api.loginErrorMessage(json.captcha_needed, json.captcha_gid, json.emailauth_needed, json.emaildomain));
+                        res.send(api.loginErrorMessage(json.captcha_needed, json.captcha_gid, json.emailauth_needed, json.emaildomain, json.emailsteamid));
                     } else {
                         res.send(api.loginIncorrectMessage());
                     }
