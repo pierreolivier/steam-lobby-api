@@ -78,9 +78,9 @@ Player.prototype.updateSteamId = function (cb) {
                 cb();
             });
         }
+    } else {
+        cb();
     }
-
-    cb();
 };
 
 Player.prototype.updateRank = function (cb) {
