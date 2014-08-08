@@ -72,13 +72,15 @@ Player.prototype.updateSteamId = function (cb) {
 
                     if (arrayEnd.length > 0) {
                         instance.steamid = arrayEnd[0];
-
-                        cb();
                     }
                 }
+
+                cb();
             });
         }
     }
+
+    cb();
 };
 
 Player.prototype.updateRank = function (cb) {
