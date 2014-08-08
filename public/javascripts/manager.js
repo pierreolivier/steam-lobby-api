@@ -10,6 +10,7 @@ function steamRequest(url, cb) {
         data: 'url=' + encodeURIComponent(url) + '&cookies=' + $.cookie('steam'),
         dataType: 'html',
         cache: false,
+        timeout: 15000,
         success: function(html, statut){
             cb(html);
         }
