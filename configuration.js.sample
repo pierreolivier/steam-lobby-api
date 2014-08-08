@@ -5,6 +5,6 @@ var configuration = {};
 
 configuration.ssl = {};
 
-configuration.ssl.passphrase = "SECRET_PASS";
+configuration.ssl.passphrase = "";
 
 module.exports = configuration;

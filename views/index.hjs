@@ -32,7 +32,7 @@
                     cache: false,
                     success: function(json, statut){
                         if (!json.success) {
-                            // hideMessage();
+                            hideMessage();
 
                             $('#loginPanel').show();
                         } else {
