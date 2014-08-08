@@ -111,26 +111,28 @@ Player.prototype.updateFriends = function (cb) {
     if (time() - this.lastUpdateFriends > CACHE_TIMEOUT) {
         steamRequest(instance.profileUrl + "/friends", function (html) {
             var divId = 'memberList';
-            if (instance.client && !instance.clientLoaded) {
+            if (instance.client) {
                 divId = 'friendListForm';
 
-                var htmlDoc = $(html);
+                if (!instance.clientLoaded) {
+                    var htmlDoc = $(html);
 
-                var nameSelect = htmlDoc.find('a.whiteLink');
-                if (nameSelect.length > 0) {
-                    instance.name = nameSelect[0].innerHTML;
+                    var nameSelect = htmlDoc.find('a.whiteLink');
+                    if (nameSelect.length > 0) {
+                        instance.name = nameSelect[0].innerHTML;
 
-                    showMessage('welcome ' + instance.name + ' !', 2000);
+                        showMessage('welcome ' + instance.name + ' !', 2000);
+                    }
+
+                    var profileUrlSelect = htmlDoc.find('div.profile_small_header_texture a');
+                    if (profileUrlSelect.length > 0) {
+                        instance.profileUrl = profileUrlSelect[0].href.substr(26);
+                    }
+
+                    instance.clientLoaded = true;
+
+                    setTimeout(startUpdatePlayers, 2000);
                 }
-
-                var profileUrlSelect = htmlDoc.find('div.profile_small_header_texture a');
-                if (profileUrlSelect.length > 0) {
-                    instance.profileUrl = profileUrlSelect[0].href.substr(26);
-                }
-
-                instance.clientLoaded = true;
-
-                setTimeout(startUpdatePlayers, 2000);
             }
 
             var friends = [];
