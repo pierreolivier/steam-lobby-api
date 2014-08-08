@@ -105,16 +105,67 @@ function logout() {
 
 function logged() {
     createClientPlayer();
+}
 
-    startUpdatePlayers();
+function handleNoGameStarted() {
+    $('#playersPanel .lobbyBackgroundElement').show();
+
+    $('#playersContent').empty();
+
+    showMessage("No game started");
 }
 
 function handlePlayers(players) {
-    $('#playersPanel').empty();
+    if (players.length > 0) {
+        $('#playersPanel .lobbyBackgroundElement').hide();
 
+        hideMessage();
+    } else {
+        $('#playersPanel .lobbyBackgroundElement').show();
+
+        showMessage("Empty lobby");
+    }
+
+    $('#playersContent').empty();
     for (var i = 0 ; i < players.length ; i++) {
         var player = players[i];
 
-        $('#playersPanel').append('<div class="playerElement"><div class="name"><a href="http://steamcommunity.com/' + player.profileUrl + '" target="_blank">' + player.name + '</a></div><div class="hours">' + player.hours + ' hours played</div><div class="rank">' + player.rank + 'th</div></div>');
+        var hoursPlayed = "private profile";
+        if (player.hours != "0") {
+            hoursPlayed = player.hours + ' hours played';
+        }
+
+        $('#playersContent').append('<div class="playerElement"><div class="name"><a href="http://steamcommunity.com' + player.profileUrl + '" target="_blank">' + player.name + '</a></div><div class="hours">' + hoursPlayed + '</div><div class="rank">' + player.rank + 'th</div></div>');
     }
+}
+
+function handlePremades(premades) {
+    if (premades.length > 0) {
+        $('#premadesPanel .lobbyBackgroundElement').hide();
+    } else {
+        $('#premadesPanel .lobbyBackgroundElement').show();
+    }
+
+    $('#premadesContent').empty();
+    for (var i = 0 ; i < premades.length ; i++) {
+        $('#premadesContent').append(premades[i] + '<br /><br />');
+    }
+}
+
+function showMessage(message, time) {
+    $('#footer').empty();
+
+    $('#footer').append(message);
+
+    $('#footer').animate({bottom:'0px'}, 300, function () {
+        if (time > 0) {
+            setTimeout(hideMessage, time);
+        }
+    });
+}
+
+function hideMessage() {
+    $('#footer').animate({bottom:'-40px'}, 300, function () {
+
+    });
 }

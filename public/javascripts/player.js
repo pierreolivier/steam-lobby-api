@@ -16,6 +16,7 @@ function Player(profileUrl, name) {
     this.lastUpdateRank = 0;
     this.order = 0;
     this.client = false;
+    this.clientLoaded = false;
 }
 
 Player.prototype.fromCache = function (hours, order, rank) {
@@ -108,7 +109,7 @@ Player.prototype.updateFriends = function (cb) {
     if (time() - this.lastUpdateFriends > CACHE_TIMEOUT) {
         steamRequest(instance.profileUrl + "/friends", function (html) {
             var divId = 'memberList';
-            if (instance.client) {
+            if (instance.client && !instance.clientLoaded) {
                 divId = 'friendListForm';
 
                 var htmlDoc = $(html);
@@ -116,12 +117,18 @@ Player.prototype.updateFriends = function (cb) {
                 var nameSelect = htmlDoc.find('a.whiteLink');
                 if (nameSelect.length > 0) {
                     instance.name = nameSelect[0].innerHTML;
+
+                    showMessage('welcome ' + instance.name + ' !', 2000);
                 }
 
                 var profileUrlSelect = htmlDoc.find('div.profile_small_header_texture a');
                 if (profileUrlSelect.length > 0) {
                     instance.profileUrl = profileUrlSelect[0].href.substr(26);
                 }
+
+                instance.clientLoaded = true;
+
+                setTimeout(startUpdatePlayers, 2000);
             }
 
             var friends = [];

@@ -108,6 +108,10 @@ function updatePlayers(callback) {
                     console.log('update lobby');
                 });
             }
+        } else {
+            handleNoGameStarted();
+
+            setTimeout(callback, 5000);
         }
     });
 }
@@ -200,17 +204,23 @@ function updatePremades() {
             }
         }
 
+        var premadesString = [];
+
         // show premades
         for (i = 0 ; i < premades.length ; i++) {
-            console.log("premade : " + getPlayerName(premades[i][0]) + ", " + getPlayerName(premades[i][1]) + " and " + getPlayerName(premades[i][2]));
-            //document.getElementById('teams_list').innerHTML += "premade : " + getPlayerName(premades[i][0]) + ", " + getPlayerName(premades[i][1]) + " and " + getPlayerName(premades[i][2]) + "<br />";
+            var premade = "premade: " + getPlayerName(premades[i][0]) + ", " + getPlayerName(premades[i][1]) + " and " + getPlayerName(premades[i][2]);
+            console.log(premade);
+            premadesString.push(premade);
         }
 
         // show duoqs
         for (i = 0 ; i < duoqs.length ; i++) {
-            console.log("duoq : " + getPlayerName(duoqs[i][0]) + " and " + getPlayerName(duoqs[i][1]));
-            //document.getElementById('teams_list').innerHTML += "duoq : " + getPlayerName(duoqs[i][0]) + " and " + getPlayerName(duoqs[i][1]) + "<br />";
+            var duo = "duoq: " + getPlayerName(duoqs[i][0]) + " and " + getPlayerName(duoqs[i][1]);
+            console.log(duo);
+            premadesString.push(duo);
         }
+
+        handlePremades(premadesString);
     });
 }
 

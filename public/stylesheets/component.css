@@ -29,7 +29,7 @@
 }
 
 .dl-menuwrapper button {
-	background: #ccc;
+	background: #1b1b1b;
 	border: none;
 	width: 48px;
 	height: 45px;
@@ -43,7 +43,7 @@
 .dl-menuwrapper button:hover,
 .dl-menuwrapper button.dl-active,
 .dl-menuwrapper ul {
-	background: #aaa;
+	background: #1b1b1b;
 }
 
 .dl-menuwrapper button:after {
@@ -134,6 +134,8 @@
 	pointer-events: auto;
 	-webkit-transform: translateY(0px);
 	transform: translateY(0px);
+    background-color: #2b2c2e;
+    border: solid #2b2c2e 1px;
 }
 
 /* Hide the inner submenus */

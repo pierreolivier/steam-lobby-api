@@ -22,6 +22,7 @@
                 $('#loginPanel').hide();
                 $('#captcha').hide();
                 $('#steam_guard').hide();
+                $('#footer').css('bottom', '-40px');
 
                 $('#dl-menu').dlmenu();
 
@@ -33,12 +34,16 @@
                     cache: false,
                     success: function(json, statut){
                         if (!json.success) {
+                            hideMessage();
+
                             $('#loginPanel').show();
                         } else {
                             logged();
                         }
                     }
                 });
+
+                showMessage("Initialization...");
             });
         </script>
     </head>
@@ -56,6 +61,9 @@
                             </li>
                             <li>
                                 <a href="#">Recently played with</a>
+                            </li>
+                            <li>
+                                <a href="#">Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -85,15 +93,29 @@
                 </div>
                 <div id="lobbyPanel" align="center">
                     <div id="playersPanel" class="lobbyElement" align="left">
+                        <div class="lobbyBackgroundElement">
+                            Players
+                        </div>
+                        <div id="playersContent">
 
+                        </div>
                     </div>
                     <div id="premadesPanel" class="lobbyElement" align="left">
-                        premades
+                        <div class="lobbyBackgroundElement">
+                            Premades
+                        </div>
+                        <div id="premadesContent">
+                        </div>
                     </div>
                 </div>
                 <div id="recentlyPlayedWith">
 
                 </div>
+            </div>
+        </div>
+        <div id="footerContainer">
+            <div id="footer" align="left">
+
             </div>
         </div>
     </body>

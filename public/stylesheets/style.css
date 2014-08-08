@@ -20,7 +20,7 @@ a {
     width: 100%;
     height: 100%;
     display: block;
-    position: relative;
+    position: absolute;
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: auto 50%;
@@ -88,6 +88,20 @@ a {
     margin-right: 5px;
 }
 
+.lobbyBackgroundElement {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    padding-top: 80px;
+    color: #333333;
+    font-size: 26px;
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-weight: bolder;
+}
+
 #playersPanel {
     position: relative;
 }
@@ -125,6 +139,39 @@ a {
     position: absolute;
     top: 5px;
     left: 10px;
+}
+
+#footerContainer {
+    z-index: 800;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+    overflow: auto;
+    overflow-y:hidden;
+}
+
+#footer {
+    z-index: 800;
+    width: 300px;
+    height: 36px;
+    position: absolute;
+    bottom: -0px;
+    left: 0;
+    right: 0;
+    margin:auto;
+    background-color: #333333;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top: 1px solid #39393a;
+    border-left: 1px solid #39393a;
+    border-right: 1px solid #39393a;
+    padding-top: 3px;
+    text-align: center;
+    color: #c3c3c3;
+    font-size: 26px;
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-weight: bolder;
 }
 
 input.textField {
