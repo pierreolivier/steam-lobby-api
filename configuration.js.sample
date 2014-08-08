@@ -1,0 +1,10 @@
+/**
+ * Created by Pierre-Olivier on 29/06/2014.
+ */
+var configuration = {};
+
+configuration.ssl = {};
+
+configuration.ssl.passphrase = "SECRET_PASS";
+
+module.exports = configuration;
