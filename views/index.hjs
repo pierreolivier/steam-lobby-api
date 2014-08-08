@@ -16,8 +16,6 @@
         <script type="text/javascript" src="/javascripts/player.js"></script>
         <script type="text/javascript" src="/javascripts/lobby.js"></script>
         <script>
-            var captchaGid = '-1';
-
             $( document ).ready(function() {
                 $('#loginPanel').hide();
                 $('#captcha').hide();
@@ -34,7 +32,7 @@
                     cache: false,
                     success: function(json, statut){
                         if (!json.success) {
-                            hideMessage();
+                            // hideMessage();
 
                             $('#loginPanel').show();
                         } else {
@@ -63,7 +61,7 @@
                                 <a href="#">Recently played with</a>
                             </li>
                             <li>
-                                <a href="#">Logout</a>
+                                <a href="javascript:logout()">Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -89,7 +87,9 @@
 
                         <br />
                         <input type="submit" id="submitLogin" class="btnGreen" onclick="javascript:login(); return false;" value="Sign In">
-                    </form>
+                    </form><br />
+
+                    <div class="loginWarning">Attention! This system will connect you to Steam but the session cookie will be stored on your computer. No traces of your account will be saved on the server.</div>
                 </div>
                 <div id="lobbyPanel" align="center">
                     <div id="playersPanel" class="lobbyElement" align="left">

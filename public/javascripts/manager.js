@@ -1,3 +1,5 @@
+var captchaGid = '-1';
+
 function steamRequest(url, cb) {
     console.log(url);
     // console.log(new Error('dummy').stack);
@@ -36,7 +38,7 @@ Array.prototype.contains = function(obj) {
         }
     }
     return false;
-}
+};
 
 function login() {
     var form = document.forms['logon'];
@@ -55,17 +57,19 @@ function login() {
     $.ajax({
         type: 'post',
         url: '/login',
-        data: 'username=' + username + '&password=' + password + '&emailauth=' + emailauth + '&captcha_gid=' + captchaGid + '&captcha=' + captcha,
+        data: 'username=' + username + '&password=' + password + '&emailauth=' + emailauth + '&captcha_gid=' + getCaptchaGid() + '&captcha=' + captcha,
         dataType: 'json',
         cache: false,
         success: function(json, statut){
             console.log(json);
 
             if (!json.success) {
-                if (json.captcha_needed == true) {
-                    captchaGid = json.captcha_gid;
+                // setCaptchaGid('-1');
 
-                    $('#captcha_img').attr('src', 'https://steamcommunity.com/public/captcha.php?gid=' + json.captcha_gid).load(function () {
+                if (json.captcha_needed == true) {
+                    setCaptchaGid(json.captcha_gid);
+
+                    $('#captcha_img').attr('src', 'https://steamcommunity.com/public/captcha.php?gid=' + getCaptchaGid()).load(function () {
                         $('#captcha').show();
                     });
                 } else {
@@ -78,7 +82,13 @@ function login() {
                     $('#steam_guard').hide();
                 }
 
-                captchaGid = '-1';
+                if (json.message == "incorrect_login") {
+                    showMessage("Incorrect !");
+                } else if (json.message == "user_action" && json.captcha_needed) {
+                    showMessage("Enter the characters!");
+                } else if (json.message == "user_action" && json.emailauth_needed) {
+                    showMessage("Enter the guard code!");
+                }
             } else {
                 $.cookie("steamid", json.steamid, { expires: 30 });
                 $.cookie("steam", json.cookies, { expires: 30 });
@@ -168,4 +178,12 @@ function hideMessage() {
     $('#footer').animate({bottom:'-40px'}, 300, function () {
 
     });
+}
+
+function setCaptchaGid(gid) {
+    captchaGid = gid;
+}
+
+function getCaptchaGid() {
+    return captchaGid;
 }

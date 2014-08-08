@@ -71,6 +71,12 @@ a {
     z-index: 0;
 }
 
+.loginWarning {
+    color: #880000;
+    font-weight: bold;
+    font-size: 11px;
+}
+
 .lobbyElement {
     width: 285px;
     min-height: 185px;
@@ -142,17 +148,20 @@ a {
 }
 
 #footerContainer {
-    z-index: 800;
-    width: 100%;
+    z-index: 3000;
+    width: 320px;
     height: 100%;
     display: block;
     position: fixed;
     overflow: auto;
     overflow-y:hidden;
+    left: 0;
+    right: 0;
+    margin:auto;
+    pointer-events: none;
 }
 
 #footer {
-    z-index: 800;
     width: 300px;
     height: 36px;
     position: absolute;
