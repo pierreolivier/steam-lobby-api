@@ -119,7 +119,7 @@ function logged() {
 }
 
 function handleNoGameStarted() {
-    $('#playersPanel .lobbyBackgroundElement').show();
+    $('#playersPanel').find('.backgroundElement').show();
 
     $('#playersContent').empty();
 
@@ -128,11 +128,11 @@ function handleNoGameStarted() {
 
 function handlePlayers(players) {
     if (players.length > 0) {
-        $('#playersPanel .lobbyBackgroundElement').hide();
+        $('#playersPanel').find('.backgroundElement').hide();
 
         hideMessage();
     } else {
-        $('#playersPanel .lobbyBackgroundElement').show();
+        $('#playersPanel').find('.backgroundElement').show();
 
         showMessage("Empty lobby");
     }
@@ -152,9 +152,9 @@ function handlePlayers(players) {
 
 function handlePremades(premades) {
     if (premades.length > 0) {
-        $('#premadesPanel .lobbyBackgroundElement').hide();
+        $('#premadesPanel').find('.backgroundElement').hide();
     } else {
-        $('#premadesPanel .lobbyBackgroundElement').show();
+        $('#premadesPanel').find('.backgroundElement').show();
     }
 
     $('#premadesContent').empty();
@@ -187,4 +187,18 @@ function setCaptchaGid(gid) {
 
 function getCaptchaGid() {
     return captchaGid;
+}
+
+function setLobbyPanel() {
+    $('#dl-menu').find('button').click();
+
+    $('#lobbyPanel').show();
+    $('#recentlyPlayedWithPanel').hide();
+}
+
+function setRecentlyPlayedWithPanel() {
+    $('#dl-menu').find('button').click();
+
+    $('#lobbyPanel').hide();
+    $('#recentlyPlayedWithPanel').show();
 }

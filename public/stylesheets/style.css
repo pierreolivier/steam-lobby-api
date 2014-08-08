@@ -77,7 +77,7 @@ a {
     font-size: 11px;
 }
 
-.lobbyElement {
+.element {
     width: 285px;
     min-height: 185px;
     display: inline-block;
@@ -94,7 +94,7 @@ a {
     margin-right: 5px;
 }
 
-.lobbyBackgroundElement {
+.backgroundElement {
     position: absolute;
     top: 0;
     left: 0;

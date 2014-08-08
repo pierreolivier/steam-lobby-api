@@ -55,10 +55,10 @@
                         <button class="dl-trigger"></button>
                         <ul class="dl-menu">
                             <li>
-                                <a href="#">Lobby</a>
+                                <a href="javascript:setLobbyPanel()">Lobby</a>
                             </li>
                             <li>
-                                <a href="#">Recently played with</a>
+                                <a href="javascript:setRecentlyPlayedWithPanel()">Recently played with</a>
                             </li>
                             <li>
                                 <a href="javascript:logout()">Logout</a>
@@ -91,24 +91,26 @@
 
                     <div class="loginWarning">Attention! This system will connect you to Steam but the session cookie will be stored on your computer. No traces of your account will be saved on the server.</div>
                 </div>
+
                 <div id="lobbyPanel" align="center">
-                    <div id="playersPanel" class="lobbyElement" align="left">
-                        <div class="lobbyBackgroundElement">
+                    <div id="playersPanel" class="element" align="left">
+                        <div class="backgroundElement">
                             Players
                         </div>
                         <div id="playersContent">
 
                         </div>
                     </div>
-                    <div id="premadesPanel" class="lobbyElement" align="left">
-                        <div class="lobbyBackgroundElement">
+                    <div id="premadesPanel" class="element" align="left">
+                        <div class="backgroundElement">
                             Premades
                         </div>
                         <div id="premadesContent">
                         </div>
                     </div>
                 </div>
-                <div id="recentlyPlayedWith">
+
+                <div id="recentlyPlayedWithPanel">
 
                 </div>
             </div>
