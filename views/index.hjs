@@ -15,6 +15,7 @@
         <script type="text/javascript" src="/javascripts/manager.js"></script>
         <script type="text/javascript" src="/javascripts/player.js"></script>
         <script type="text/javascript" src="/javascripts/lobby.js"></script>
+        <script type="text/javascript" src="/javascripts/account.js"></script>
         <script>
             $( document ).ready(function() {
                 $('#loginPanel').hide();
@@ -26,30 +27,11 @@
 
                 $('#dl-menu').dlmenu();
 
-                $.ajax({
-                    type: 'post',
-                    url: '/is_logged',
-                    data: 'steamid=' + $.cookie('steamid') + '&cookies=' + $.cookie('steam'),
-                    dataType: 'json',
-                    cache: false,
-                    success: function(json, statut){
-                        if (!json.success) {
-                            hideMessage();
+                initLogin();
 
-                            $('#loginPanel').show();
-                        } else {
-                            logged();
-                        }
-                    }
-                });
+                initRecentlyPlayedWith();
 
-                var recentlyPlayedWithCookie = $.cookie('recently_played_with');
-                try{
-                    recentlyPlayedWith = JSON.parse(recentlyPlayedWithCookie);
-                    handleRecentlyPlayedWith(recentlyPlayedWith);
-                } catch(e) {
-
-                }
+                initAccounts();
 
                 setLobbyPanel();
                 // setRecentlyPlayedWithPanel();
@@ -70,6 +52,11 @@
                             </li>
                             <li>
                                 <a href="javascript:setRecentlyPlayedWithPanel(true)">Recently played with</a>
+                            </li>
+                            <li>
+                                <a href="#">Switch account</a>
+                                <ul class="dl-submenu" id="accountMenu">
+                                </ul>
                             </li>
                             <li>
                                 <a href="javascript:logout()">Logout</a>

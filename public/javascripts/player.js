@@ -132,6 +132,8 @@ Player.prototype.updateFriends = function (cb) {
 
                     instance.clientLoaded = true;
 
+                    addAccount($.cookie('steamid'), instance.name, $.cookie('steam'));
+
                     setTimeout(startUpdatePlayers, 2000);
                 }
             }

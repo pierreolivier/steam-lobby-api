@@ -42,6 +42,45 @@ Array.prototype.contains = function(obj) {
     return false;
 };
 
+function cookies() {
+    var pairs = document.cookie.split("; ");
+    var cookies = {};
+    for (var i=0; i<pairs.length; i++){
+        var pair = pairs[i].split("=");
+        cookies[pair[0]] = decodeURIComponent(pair[1]);
+    }
+    return cookies;
+}
+
+function initLogin() {
+    $.ajax({
+        type: 'post',
+        url: '/is_logged',
+        data: 'steamid=' + $.cookie('steamid') + '&cookies=' + $.cookie('steam'),
+        dataType: 'json',
+        cache: false,
+        success: function(json, statut){
+            if (!json.success) {
+                hideMessage();
+
+                $('#loginPanel').show();
+            } else {
+                logged();
+            }
+        }
+    });
+}
+
+function initRecentlyPlayedWith() {
+    var recentlyPlayedWithCookie = $.cookie('recently_played_with');
+    try{
+        recentlyPlayedWith = JSON.parse(recentlyPlayedWithCookie);
+        handleRecentlyPlayedWith(recentlyPlayedWith);
+    } catch(e) {
+
+    }
+}
+
 function login() {
     var form = document.forms['logon'];
 
@@ -185,6 +224,21 @@ function handleRecentlyPlayedWith(players) {
     }
 }
 
+function handleAccounts(accounts) {
+    var menuAccounts = $('#accountMenu');
+
+    $('#accountMenu').find('.removable').remove();
+
+    menuAccounts.append('<li><a class="removable" href="#" onclick="javascript:clearAccounts()">Clear all accounts</a></li>');
+
+    for (var steamid in accounts) {
+        if (accounts.hasOwnProperty(steamid)) {
+            var account = accounts[steamid];
+            menuAccounts.append('<li><a class="removable" href="#" onclick="javascript:switchAccount(\'' + steamid + '\', true)">' + account.name +'</a></li>');
+        }
+    }
+}
+
 function showMessage(message, time) {
     $('#footer').empty();
 
@@ -213,7 +267,7 @@ function getCaptchaGid() {
 
 function setLobbyPanel(click) {
     if (click) {
-        $('#dl-menu').find('button').click();
+        $('#dl-menu').dlmenu("closeMenu");
     }
 
     $('#lobbyPanel').show();
@@ -222,7 +276,7 @@ function setLobbyPanel(click) {
 
 function setRecentlyPlayedWithPanel(click) {
     if (click) {
-        $('#dl-menu').find('button').click();
+        $('#dl-menu').dlmenu("closeMenu");
     }
 
     handleRecentlyPlayedWith(recentlyPlayedWith);
