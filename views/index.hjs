@@ -22,6 +22,8 @@
                 $('#steam_guard').hide();
                 $('#footer').css('bottom', '-40px');
 
+                showMessage("Initialization...");
+
                 $('#dl-menu').dlmenu();
 
                 $.ajax({
@@ -41,7 +43,16 @@
                     }
                 });
 
-                showMessage("Initialization...");
+                var recentlyPlayedWithCookie = $.cookie('recently_played_with');
+                try{
+                    recentlyPlayedWith = JSON.parse(recentlyPlayedWithCookie);
+                    handleRecentlyPlayedWith(recentlyPlayedWith);
+                } catch(e) {
+
+                }
+
+                setLobbyPanel();
+                // setRecentlyPlayedWithPanel();
             });
         </script>
     </head>
@@ -55,10 +66,10 @@
                         <button class="dl-trigger"></button>
                         <ul class="dl-menu">
                             <li>
-                                <a href="javascript:setLobbyPanel()">Lobby</a>
+                                <a href="javascript:setLobbyPanel(true)">Lobby</a>
                             </li>
                             <li>
-                                <a href="javascript:setRecentlyPlayedWithPanel()">Recently played with</a>
+                                <a href="javascript:setRecentlyPlayedWithPanel(true)">Recently played with</a>
                             </li>
                             <li>
                                 <a href="javascript:logout()">Logout</a>
@@ -110,8 +121,13 @@
                     </div>
                 </div>
 
-                <div id="recentlyPlayedWithPanel">
+                <div id="recentlyPlayedWithPanel" class="elementOne" align="left">
+                    <div class="backgroundElement">
+                        Recently played with
+                    </div>
+                    <div id="recentlyPlayedWithContent">
 
+                    </div>
                 </div>
             </div>
         </div>

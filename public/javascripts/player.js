@@ -14,14 +14,12 @@ function Player(profileUrl, name) {
     this.lastUpdateHours = 0;
     this.lastUpdateFriends = 0;
     this.lastUpdateRank = 0;
-    this.order = 0;
     this.client = false;
     this.clientLoaded = false;
 }
 
-Player.prototype.fromCache = function (hours, order, rank) {
+Player.prototype.fromCache = function (hours, rank) {
     this.hours = hours;
-    this.order = order;
     this.rank = rank;
 
     this.lastUpdateHours = 9007199254740992;
@@ -89,12 +87,15 @@ Player.prototype.updateRank = function (cb) {
     if (time() - this.lastUpdateRank > CACHE_TIMEOUT) {
         this.getSteamid(function (steamid) {
             steamRequest('/stats/204300/leaderboards/397491/?xml=1&steamid=' + steamid, function (html) {
-                var xmlDoc = $.parseXML(html);
+                var entryElement = html.split('<steamid>' + steamid + '</steamid>');
+                if (entryElement.length > 1) {
+                    var rankStart = entryElement[1].split('<rank>');
+                    if (rankStart.length > 1) {
+                        var rankEnd = rankStart[1].split('</rank>');
 
-                if (instance.rank = $(xmlDoc).find("steamid:contains(" + steamid + ")").siblings('rank').length > 0) {
-                    instance.rank = $(xmlDoc).find("steamid:contains(" + steamid + ")").siblings('rank')[0].innerHTML;
-
-                    instance.lastUpdateRank = time();
+                        instance.rank = rankEnd[0];
+                        instance.lastUpdateRank = time();
+                    }
                 }
 
                 cb(true);
@@ -204,3 +205,14 @@ Player.prototype.serialize = function() {
 
     return json;
 };
+
+Player.prototype.cache = function() {
+    return new CachePlayer(this.profileUrl, this.name, this.hours, this.rank);
+};
+
+function CachePlayer(profileUrl, name, hours, rank) {
+    this.profileUrl = profileUrl;
+    this.name = name;
+    this.hours = hours;
+    this.rank = rank;
+}

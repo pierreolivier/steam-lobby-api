@@ -7,6 +7,8 @@ var updateEnable = false;
 var cachePlayers = {};
 var currentPlayers = [];
 
+var recentlyPlayedWith = [];
+
 function createClientPlayer() {
     clientPlayer = new Player('/profiles/' + $.cookie("steamid"), 'me');
     clientPlayer.client = true;
@@ -98,6 +100,8 @@ function updatePlayers(callback) {
                     ],
                     function(err, results){
                         cb();
+
+                        addRecentlyPlayedWith(players);
                     });
 
                 }, function (err) {
@@ -243,5 +247,35 @@ function getPlayerName(index) {
         } else {
             return "error";
         }
+    }
+}
+
+function addRecentlyPlayedWith(players) {
+    var i;
+
+    for (i = 0 ; i < players.length ; i++) {
+        removeRecentlyPlayedWith(players[i]);
+
+        recentlyPlayedWith.push(players[i].cache());
+    }
+
+    $.cookie("recently_played_with", JSON.stringify(recentlyPlayedWith), { expires: 2 });
+
+    handleRecentlyPlayedWith(recentlyPlayedWith);
+}
+
+function removeRecentlyPlayedWith(player) {
+    var index = -1;
+
+    for (var i = 0 ; i < recentlyPlayedWith.length ; i++) {
+        if (recentlyPlayedWith[i].profileUrl == player.profileUrl) {
+            index = i;
+
+            break;
+        }
+    }
+
+    if (index != -1) {
+        recentlyPlayedWith.splice(index, 1);
     }
 }

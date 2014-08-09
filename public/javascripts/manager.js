@@ -120,8 +120,10 @@ function logged() {
 
 function handleNoGameStarted() {
     $('#playersPanel').find('.backgroundElement').show();
-
     $('#playersContent').empty();
+
+    $('#premadesPanel').find('.backgroundElement').show();
+    $('#premadesContent').empty();
 
     showMessage("No game started");
 }
@@ -163,6 +165,26 @@ function handlePremades(premades) {
     }
 }
 
+function handleRecentlyPlayedWith(players) {
+    if (players.length > 0) {
+        $('#recentlyPlayedWithPanel').find('.backgroundElement').hide();
+    } else {
+        $('#recentlyPlayedWithPanel').find('.backgroundElement').show();
+    }
+
+    $('#recentlyPlayedWithContent').empty();
+    for (var i = players.length - 1 ; i >= 0 ; i--) {
+        var player = players[i];
+
+        var hoursPlayed = "private profile";
+        if (player.hours != "0") {
+            hoursPlayed = player.hours + ' hours played';
+        }
+
+        $('#recentlyPlayedWithContent').append('<div class="playerElement"><div class="name"><a href="http://steamcommunity.com' + player.profileUrl + '" target="_blank">' + player.name + '</a></div><div class="hours">' + hoursPlayed + '</div><div class="rank">' + player.rank + 'th</div></div>');
+    }
+}
+
 function showMessage(message, time) {
     $('#footer').empty();
 
@@ -189,15 +211,21 @@ function getCaptchaGid() {
     return captchaGid;
 }
 
-function setLobbyPanel() {
-    $('#dl-menu').find('button').click();
+function setLobbyPanel(click) {
+    if (click) {
+        $('#dl-menu').find('button').click();
+    }
 
     $('#lobbyPanel').show();
     $('#recentlyPlayedWithPanel').hide();
 }
 
-function setRecentlyPlayedWithPanel() {
-    $('#dl-menu').find('button').click();
+function setRecentlyPlayedWithPanel(click) {
+    if (click) {
+        $('#dl-menu').find('button').click();
+    }
+
+    handleRecentlyPlayedWith(recentlyPlayedWith);
 
     $('#lobbyPanel').hide();
     $('#recentlyPlayedWithPanel').show();
