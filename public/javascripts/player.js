@@ -86,7 +86,7 @@ Player.prototype.updateRank = function (cb) {
 
     if (time() - this.lastUpdateRank > CACHE_TIMEOUT) {
         this.getSteamid(function (steamid) {
-            steamRequest('/stats/204300/leaderboards/397491/?xml=1&steamid=' + steamid, function (html) {
+            steamRequest('/stats/204300/leaderboards/483347/?xml=1&steamid=' + steamid, function (html) {
                 var entryElement = html.split('<steamid>' + steamid + '</steamid>');
                 if (entryElement.length > 1) {
                     var rankStart = entryElement[1].split('<rank>');
