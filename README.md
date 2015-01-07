@@ -40,7 +40,7 @@ INSTALL
 
 5) (optional) set the passphrase in configuration.js
 
-INSTALL
+RUN
 =============================
 
 	node ./bin/www
