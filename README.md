@@ -5,18 +5,26 @@ Images provide from Steam
 
 http://steampowered.com/
 
-This Google Chrome app allows players to see against who they are playing.
+This app allows players to see against who they are playing.
 
 INSTALL
 =============================
 
-1) install nodejs packages
+1) install nodejs
+
+	http://nodejs.org/
+
+	For Windows users : add C:\Program Files\nodejs to your PATH
+
+
+
+2) install nodejs packages
 
 	npm update
 
 
 
-2) create a certificate
+3) create a certificate (if you set a passphrase, don't forget step 5)
 
 	openssl genrsa -out key.pem 1024
 
@@ -26,11 +34,17 @@ INSTALL
 
 
 
-3) rename configuration.js.sample to configuration.js
+4) rename configuration.js.sample to configuration.js
 
 
 
-4) (optional) set the passphare in configuration.js
+5) (optional) set the passphrase in configuration.js
+
+INSTALL
+=============================
+
+	node ./bin/www
+
 
 
 WHY YOU NEED TO BE CONNECTED TO STEAM COMMUNITY ?
